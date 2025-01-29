@@ -8,9 +8,9 @@ const checkoutBtn = document.getElementById('checkout-btn');
 
 // Product details
 const products = [
-  { id: 1, name: 'Coffee', price: 15000.00 },
-  { id: 2, name: 'Tea', price: 5000.000 },
-  { id: 3, name: 'Cake', price: 10000.000 }
+  { id: 1, name: 'Coffee', price: 15000 },
+  { id: 2, name: 'Tea', price: 5000 },
+  { id: 3, name: 'Cake', price: 10000 }
 ];
 
 // Add product to cart
