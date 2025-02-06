@@ -49,43 +49,7 @@
       <button id="checkout-btn">Proceed to Checkout</button>
     </section>
   </div>
-    <script>
-      let total = 0;
-
-      function addToCart(price) {
-        total += price;
-        document.getElementById("total-price").innerText = total;
-      }
-
-      function checkout() {
-        if (total === 0) {
-          alert("Keranjang masih kosong!");
-          return;
-        }
-
-        document.getElementById("payment-amount").style.display = "block";
-        document
-          .getElementById("payment-amount")
-          .addEventListener("keypress", function (event) {
-            if (event.key === "Enter") {
-              processPayment();
-            }
-          });
-      }
-
-      function processPayment() {
-        let payment = parseInt(document.getElementById("payment-amount").value);
-        if (isNaN(payment) || payment < total) {
-          alert("Uang tidak cukup!");
-          return;
-        }
-
-        let change = payment - total;
-        document.getElementById("change").innerText = "Kembalian: Rp " + change;
-        document.getElementById("change").style.display = "block";
-      }
-    </script>
-
+    
   <script src="script.js"></script>
 </body>
 </html>
