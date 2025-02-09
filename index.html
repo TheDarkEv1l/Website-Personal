@@ -49,7 +49,114 @@
       <button id="checkout-btn">Proceed to Checkout</button>
     </section>
   </div>
-    
-  <script src="script.js"></script>
+  
+  <script>
+    let cart = [];
+    const cartCountElement = document.getElementById("cart-count");
+    const cartItemsElement = document.getElementById("cart-items");
+    const checkoutButton = document.getElementById("checkout-btn");
+
+    // Menu items
+    const products = [
+      { id: 1, name: "Coffee", price: 15000 },
+      { id: 2, name: "Tea", price: 5000 },
+      { id: 3, name: "Cake", price: 10000 }
+    ];
+
+    // Add to cart function
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const existingProductIndex = cart.findIndex(item => item.id === productId);
+      
+      if (existingProductIndex !== -1) {
+        cart[existingProductIndex].quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+      updateCart();
+    }
+
+    // Update the cart UI
+    function updateCart() {
+      cartCountElement.textContent = cart.length;
+      cartItemsElement.innerHTML = "";
+      let total = 0;
+
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        const cartItemElement = document.createElement("div");
+        cartItemElement.classList.add("cart-item");
+        cartItemElement.innerHTML = `
+          <p>${item.name} - Rp. ${item.price} x ${item.quantity}</p>
+          <input type="number" min="1" value="${item.quantity}" class="quantity" data-id="${item.id}">
+        `;
+        cartItemsElement.appendChild(cartItemElement);
+      });
+
+      const totalElement = document.createElement("div");
+      totalElement.classList.add("total");
+      totalElement.innerHTML = `<p>Total: Rp. ${total}</p>`;
+      cartItemsElement.appendChild(totalElement);
+
+      // Attach event listeners to quantity inputs
+      document.querySelectorAll('.quantity').forEach(input => {
+        input.addEventListener('change', function () {
+          updateQuantity(input.dataset.id, parseInt(input.value));
+        });
+      });
+    }
+
+    // Update quantity in cart
+    function updateQuantity(productId, quantity) {
+      const productIndex = cart.findIndex(item => item.id === parseInt(productId));
+      if (productIndex !== -1) {
+        if (quantity < 1) {
+          cart.splice(productIndex, 1);
+        } else {
+          cart[productIndex].quantity = quantity;
+        }
+        updateCart();
+      }
+    }
+
+    // Checkout process
+    checkoutButton.addEventListener("click", function () {
+      if (cart.length > 0) {
+        const totalAmount = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        
+        let paymentAmount = 0;
+        // Loop until the payment is sufficient
+        while (paymentAmount < totalAmount) {
+          paymentAmount = parseInt(prompt(`Your total is Rp. ${totalAmount}. Enter your payment amount:`));
+          
+          // Check if the input is valid and sufficient
+          if (isNaN(paymentAmount) || paymentAmount < totalAmount) {
+            alert("The payment amount is not sufficient. Please enter a correct amount.");
+          } else {
+            // Calculate the change
+            const change = paymentAmount - totalAmount;
+            if (change > 0) {
+              alert(`Checkout successful! Your change is Rp. ${change}. Thank you for your order.`);
+            } else {
+              alert("Checkout successful! Thank you for your order.");
+            }
+            cart = [];
+            updateCart();
+            break; // Exit the loop when the payment is sufficient
+          }
+        }
+      } else {
+        alert("Your cart is empty. Please add items to proceed.");
+      }
+    }); 
+
+    // Attach add to cart event listeners
+    document.querySelectorAll(".add-to-cart").forEach(button => {
+      button.addEventListener("click", function () {
+        const productId = parseInt(this.closest(".product").getAttribute("data-id"));
+        addToCart(productId);
+      });
+    });
+  </script>
 </body>
 </html>
