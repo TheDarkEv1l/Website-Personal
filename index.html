@@ -20,7 +20,7 @@
     </header>
 
     <section class="menu">
-      <h2>Our Menu</h2>
+      <h2>Menu kami</h2>
       <div class="products">
         <div class="product" data-id="1">
           <img src="coffee.jpg" alt="Coffee">
@@ -74,7 +74,6 @@
       updateCart();
     }
 
-    // Update the cart UI
     function updateCart() {
       cartCountElement.textContent = cart.length;
       cartItemsElement.innerHTML = "";
@@ -96,7 +95,6 @@
       totalElement.innerHTML = `<p>Total: Rp. ${total}</p>`;
       cartItemsElement.appendChild(totalElement);
 
-      // Attach event listeners to quantity inputs
       document.querySelectorAll('.quantity').forEach(input => {
         input.addEventListener('change', function () {
           updateQuantity(input.dataset.id, parseInt(input.value));
@@ -104,7 +102,6 @@
       });
     }
 
-    // Update quantity in cart
     function updateQuantity(productId, quantity) {
       const productIndex = cart.findIndex(item => item.id === parseInt(productId));
       if (productIndex !== -1) {
@@ -144,7 +141,6 @@
       }
     }); 
 
-    // Attach add to cart event listeners
     document.querySelectorAll(".add-to-cart").forEach(button => {
       button.addEventListener("click", function () {
         const productId = parseInt(this.closest(".product").getAttribute("data-id"));
