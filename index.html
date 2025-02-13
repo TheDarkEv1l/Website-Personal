@@ -12,9 +12,9 @@
       <h1>TRIDRINK'S Cafe</h1>
       <nav>
         <ul>
-          <li><a href="#">Home</a></li>
+          <li><a href="#">Beranda</a></li>
           <li><a href="#">Menu</a></li>
-          <li><a href="#">Cart (<span id="cart-count">0</span>)</a></li>
+          <li><a href="#">Keranjang (<span id="cart-count">0</span>)</a></li>
         </ul>
       </nav>
     </header>
@@ -26,27 +26,27 @@
           <img src="coffee.jpg" alt="Coffee">
           <p>Coffee</p>
           <p>Rp. 15.000</p>
-          <button class="add-to-cart">Add to Cart</button>
+          <button class="add-to-cart">Masukkan Keranjang</button>
         </div>
         <div class="product" data-id="2">
           <img src="tea.jpg" alt="Tea">
           <p>Tea</p>
           <p>Rp. 5.000</p>
-          <button class="add-to-cart">Add to Cart</button>
+          <button class="add-to-cart">Masukkan Keranjang</button>
         </div>
         <div class="product" data-id="3">
           <img src="cake.jpg" alt="Cake">
           <p>Cake</p>
           <p>Rp. 10.000</p>
-          <button class="add-to-cart">Add to Cart</button>
+          <button class="add-to-cart">Masukkan Keranjang</button>
         </div>
       </div>
     </section>
 
     <section class="cart">
-      <h2>Your Cart</h2>
+      <h2>Keranjang</h2>
       <div id="cart-items"></div>
-      <button id="checkout-btn">Proceed to Checkout</button>
+      <button id="checkout-btn">Lanjutkan Pesanan</button>
     </section>
   </div>
   
@@ -56,14 +56,12 @@
     const cartItemsElement = document.getElementById("cart-items");
     const checkoutButton = document.getElementById("checkout-btn");
 
-    // Menu items
     const products = [
       { id: 1, name: "Coffee", price: 15000 },
       { id: 2, name: "Tea", price: 5000 },
       { id: 3, name: "Cake", price: 10000 }
     ];
 
-    // Add to cart function
     function addToCart(productId) {
       const product = products.find(p => p.id === productId);
       const existingProductIndex = cart.findIndex(item => item.id === productId);
@@ -119,34 +117,30 @@
       }
     }
 
-    // Checkout process
     checkoutButton.addEventListener("click", function () {
       if (cart.length > 0) {
         const totalAmount = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
         
         let paymentAmount = 0;
-        // Loop until the payment is sufficient
         while (paymentAmount < totalAmount) {
-          paymentAmount = parseInt(prompt(`Your total is Rp. ${totalAmount}. Enter your payment amount:`));
+          paymentAmount = parseInt(prompt(`Total harga pesanan kamu adalah Rp. ${totalAmount}. Masukkan uang anda:`));
           
-          // Check if the input is valid and sufficient
           if (isNaN(paymentAmount) || paymentAmount < totalAmount) {
-            alert("The payment amount is not sufficient. Please enter a correct amount.");
+            alert("Uang yang anda masukkan tidak cukup. Masukkan jumlah yang benar.");
           } else {
-            // Calculate the change
             const change = paymentAmount - totalAmount;
             if (change > 0) {
-              alert(`Checkout successful! Your change is Rp. ${change}. Thank you for your order.`);
+              alert(`Pesanan telah berhasil! Total kembalian kamu adalah Rp. ${change}. Terima kasih telah berbelanja di TRIDRINK'S.`);
             } else {
-              alert("Checkout successful! Thank you for your order.");
+              alert("Pesanan telah berhasil! Terima kasih telah berbelanja di TRIDRINK'S.");
             }
             cart = [];
             updateCart();
-            break; // Exit the loop when the payment is sufficient
+            break; 
           }
         }
       } else {
-        alert("Your cart is empty. Please add items to proceed.");
+        alert("Pesanan kamu masih kosong. Tolong masukkan pesanan anda.");
       }
     }); 
 
